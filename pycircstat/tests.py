@@ -13,6 +13,8 @@ from . import utils
 from .distributions import kappa
 import pandas as pd
 
+from nose.tools import nottest
+
 
 @swap2zeroaxis(['alpha', 'w'], [0, 1])
 def rayleigh(alpha, w=None, d=None, axis=None):
@@ -251,20 +253,20 @@ def _critical_value_raospacing(n, U):
 @swap2zeroaxis(['alpha', 'w'], [0, 1])
 def vtest(alpha, mu, w=None, d=None, axis=None):
     """
-    Computes V test for nonuniformity of circular data with a known mean 
+    Computes V test for nonuniformity of circular data with a known mean
     direction of dir.
 
     H0: the population is uniformly distributed around the circle
     HA: the populatoin is not distributed uniformly around the circle but
         has a mean of mu
-        
+
     Note: Not rejecting H0 may mean that the population is uniformly
     distributed around the circle OR that it has a mode but that this mode
     is not centered at dir.
 
     The V test has more power than the Rayleigh test and is preferred if
     there is reason to believe (before seeing the data!) in a specific
-    mean direction. 
+    mean direction.
 
 
     :param alpha: sample of angles in radian
@@ -304,19 +306,19 @@ def vtest(alpha, mu, w=None, d=None, axis=None):
 @swap2zeroaxis(['alpha'], [0, 1])
 def symtest(alpha, axis=None):
     """
-    Non-parametric test for symmetry around the median. Works by performing a 
+    Non-parametric test for symmetry around the median. Works by performing a
     Wilcoxon sign rank test on the differences to the median.
 
     H0: the population is symmetrical around the median
     HA: the population is not symmetrical around the median
-        
+
 
     :param alpha: sample of angles in radian
     :param axis:  compute along this dimension, default is None
                   if axis=None, array is raveled
     :return pval: two-tailed p-value
     :return T:    test statistics of underlying wilcoxon test
-   
+
 
     References: [Zar2009]_
     """
@@ -335,6 +337,7 @@ def symtest(alpha, axis=None):
     return pval, T
 
 
+@nottest
 def watson_williams_test(*args, **kwargs):
     """
     Parametric Watson-Williams multi-sample test for equal means. Can be
@@ -361,6 +364,8 @@ def watson_williams_test(*args, **kwargs):
     :return pval, table: p-value and pandas dataframe containing the ANOVA table
 
     """
+
+    print("args", args)
 
     axis = kwargs.get('axis', None)
     w = kwargs.get('w', None)
